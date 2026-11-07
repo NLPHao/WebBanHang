@@ -1,0 +1,96 @@
+﻿@model WebBanHang.Models.san_pham
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>san_pham</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ten_san_pham)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ten_san_pham)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gia_ban)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gia_ban)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gia_khuyen_mai)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gia_khuyen_mai)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.so_luong_ton)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.so_luong_ton)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mo_ta_chi_tiet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mo_ta_chi_tiet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.hinh_anh_dai_dien)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hinh_anh_dai_dien)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.trang_thai)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.trang_thai)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.danh_muc.ten_danh_muc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.danh_muc.ten_danh_muc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.thuong_hieu.ten_thuong_hieu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.thuong_hieu.ten_thuong_hieu)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

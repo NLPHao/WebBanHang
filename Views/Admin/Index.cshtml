@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Tổng Quan Hệ Thống";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-3">
+        <div class="card text-white bg-primary h-100 shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="card-title mb-0">SẢN PHẨM</h6>
+                    <h2 class="my-2 display-6 fw-bold">@ViewBag.SoLuongSanPham</h2>
+                </div>
+                <i class="fa-solid fa-box-open fa-3x opacity-50"></i>
+            </div>
+            <div class="card-footer bg-transparent border-0 small">
+                <a href="#" class="text-white text-decoration-none">Xem chi tiết <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-success h-100 shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="card-title mb-0">ĐƠN HÀNG</h6>
+                    <h2 class="my-2 display-6 fw-bold">@ViewBag.SoLuongDonHang</h2>
+                </div>
+                <i class="fa-solid fa-cart-shopping fa-3x opacity-50"></i>
+            </div>
+            <div class="card-footer bg-transparent border-0 small">
+                <a href="#" class="text-white text-decoration-none">Xem chi tiết <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-warning h-100 shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="card-title mb-0 text-dark">KHÁCH HÀNG</h6>
+                    <h2 class="my-2 display-6 fw-bold text-dark">@ViewBag.SoLuongKhachHang</h2>
+                </div>
+                <i class="fa-solid fa-users fa-3x opacity-50 text-dark"></i>
+            </div>
+            <div class="card-footer bg-transparent border-0 small">
+                <a href="#" class="text-dark text-decoration-none">Xem chi tiết <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-danger h-100 shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="card-title mb-0">DOANH THU</h6>
+                    <h3 class="my-2 fw-bold">
+                        @string.Format("{0:N0} đ", ViewBag.TongDoanhThu)
+                    </h3>
+                </div>
+                <i class="fa-solid fa-sack-dollar fa-3x opacity-50"></i>
+            </div>
+            <div class="card-footer bg-transparent border-0 small">
+                <span class="text-white-50">Tổng doanh thu toàn hệ thống</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white py-3">
+        <h5 class="mb-0 text-primary fw-bold">Chào mừng đến trang quản trị</h5>
+    </div>
+    <div class="card-body">
+        <p>Đây là trang dành riêng cho Quản trị viên (Admin). Bạn có thể sử dụng menu bên trái để:</p>
+        <ul>
+            <li>Thêm, xóa, sửa sản phẩm.</li>
+            <li>Xem và cập nhật trạng thái đơn hàng.</li>
+            <li>Quản lý danh sách người dùng.</li>
+        </ul>
+    </div>
+</div>
+

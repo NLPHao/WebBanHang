@@ -1,0 +1,289 @@
+﻿@model WebBanHang.Models.san_pham
+
+@{
+    ViewBag.Title = Model.ten_san_pham;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Tính phần trăm giảm giá
+    int discountPercent = 0;
+    if (Model.gia_khuyen_mai.HasValue && Model.gia_khuyen_mai < Model.gia_ban)
+    {
+        discountPercent = (int)((1 - (Model.gia_khuyen_mai.Value / Model.gia_ban)) * 100);
+    }
+}
+
+<style>
+    /* 1. Bao bọc toàn bộ trang chi tiết */
+    .product-detail-wrapper {
+        color: #f1f5f9 !important; /* Ép tất cả chữ thành màu trắng sáng */
+    }
+
+    /* 2. Card chứa ảnh: Làm mềm mại hơn */
+    .product-image-card {
+        background-color: #ffffff; /* Nền trắng cho ảnh sản phẩm (để ảnh JPG không bị xấu) */
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5); /* Đổ bóng sâu */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .main-product-img {
+        max-height: 500px;
+        object-fit: contain;
+    }
+
+    /* 3. Card chứa thông tin: Hiệu ứng kính mờ (Glassmorphism) */
+    .product-info-card {
+        background: rgba(30, 41, 59, 0.7); /* Màu nền xám xanh trong suốt */
+        backdrop-filter: blur(10px); /* Làm mờ nền đằng sau */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 30px;
+        height: 100%;
+    }
+
+    /* 4. Chỉnh sửa màu chữ tiêu đề và giá */
+    .product-title {
+        color: #38bdf8; /* Xanh dương neon sáng */
+        font-weight: 800;
+        text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+    }
+
+    .current-price {
+        color: #fb7185; /* Hồng cam neon */
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+
+    .original-price {
+        color: #94a3b8 !important; /* Màu xám sáng cho giá cũ */
+        text-decoration: line-through;
+    }
+
+    /* 5. Ép màu chữ cho đoạn mô tả - KHẮC PHỤC LỖI CŨ */
+    .short-description, .short-description p, .short-description span {
+        color: #e2e8f0 !important; /* Trắng xám dễ đọc */
+        font-size: 1.05rem;
+        line-height: 1.6;
+    }
+
+    /* 6. Tabs thông số kỹ thuật */
+    .nav-tabs {
+        border-bottom: 1px solid #475569;
+    }
+
+        .nav-tabs .nav-link {
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+            .nav-tabs .nav-link.active {
+                background-color: transparent;
+                color: #38bdf8;
+                border-color: #475569 #475569 #1e293b;
+                border-bottom: 2px solid #38bdf8;
+            }
+
+    .tech-table th {
+        background-color: rgba(255,255,255,0.05);
+        color: #cbd5e1;
+        width: 35%;
+    }
+
+    .tech-table td {
+        color: #fff;
+    }
+</style>
+
+<div class="container py-5 product-detail-wrapper">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "San_Pham")" class="text-white-50 text-decoration-none">Sản phẩm</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "San_Pham", new { id = Model.id_danh_muc })" class="text-white-50 text-decoration-none">@Model.danh_muc.ten_danh_muc</a></li>
+            <li class="breadcrumb-item active text-white" aria-current="page">@Model.ten_san_pham</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="product-image-card sticky-top" style="top: 90px; z-index: 1;">
+                <img src="~/images/@Model.hinh_anh_dai_dien" alt="@Model.ten_san_pham" class="img-fluid main-product-img"
+                     onerror="this.src='https://placehold.co/600x600/png?text=No+Image'">
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="product-info-card">
+                <h1 class="product-title mb-2">@Model.ten_san_pham</h1>
+
+                <div class="d-flex align-items-center gap-3 mb-4 text-white-50">
+                    <span><i class="fa-solid fa-tag me-1"></i>Thương hiệu: <strong class="text-white">@Model.thuong_hieu.ten_thuong_hieu</strong></span>
+                    <span>|</span>
+                    <span>Mã SP: #@Model.id_san_pham</span>
+                </div>
+
+                <div class="mb-4">
+                    @if (Model.gia_khuyen_mai.HasValue && Model.gia_khuyen_mai < Model.gia_ban)
+                    {
+                        <div class="d-flex align-items-end gap-3">
+                            <span class="current-price">@string.Format("{0:#,##0}đ", Model.gia_khuyen_mai)</span>
+                            <div class="d-flex flex-column">
+                                <span class="original-price">@string.Format("{0:#,##0}đ", Model.gia_ban)</span>
+                                <span class="badge bg-danger">Giảm @discountPercent%</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <span class="current-price">@string.Format("{0:#,##0}đ", Model.gia_ban)</span>
+                    }
+                </div>
+
+                <div class="mb-4">
+                    @if (Model.so_luong_ton > 0)
+                    {
+                        <div class="d-inline-block px-3 py-1 rounded bg-success bg-opacity-25 text-success border border-success">
+                            <i class="fa-solid fa-check me-2"></i>Còn hàng (Sẵn sàng giao)
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-inline-block px-3 py-1 rounded bg-danger bg-opacity-25 text-danger border border-danger">
+                            <i class="fa-solid fa-xmark me-2"></i>Tạm hết hàng
+                        </div>
+                    }
+                </div>
+
+                <div class="short-description mb-5">
+                    <h5 class="text-white border-bottom border-secondary pb-2 mb-3">Đặc điểm nổi bật</h5>
+                    @if (!string.IsNullOrEmpty(Model.mo_ta_chi_tiet))
+                    {
+                        // Lấy 300 ký tự đầu tiên nếu quá dài
+                        var moTaNgan = Model.mo_ta_chi_tiet.Length > 300 ? Model.mo_ta_chi_tiet.Substring(0, 300) + "..." : Model.mo_ta_chi_tiet;
+                        @Html.Raw(moTaNgan)
+                    }
+                </div>
+
+                <form action="@Url.Action("ThemGioHang", "GioHang")" method="get" class="d-flex gap-3 align-items-stretch mt-4">
+                    <input type="hidden" name="iMaSP" value="@Model.id_san_pham" />
+                    <input type="hidden" name="strURL" value="@Request.Url.ToString()" />
+
+                    <div class="quantity-box d-flex align-items-center bg-dark border border-secondary rounded px-2" style="width: 140px;">
+                        <button type="button" class="btn btn-sm text-white-50 hover-white" onclick="thayDoiSoLuong(-1)">
+                            <i class="fa-solid fa-minus"></i>
+                        </button>
+
+                        <input type="number" id="soLuongMua" name="soLuong" value="1" min="1" max="@Model.so_luong_ton"
+                               class="form-control bg-transparent border-0 text-white text-center fw-bold fs-5"
+                               readonly> <button type="button" class="btn btn-sm text-white-50 hover-white" onclick="thayDoiSoLuong(1)">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg flex-grow-1 fw-bold shadow-lg text-uppercase d-flex align-items-center justify-content-center gap-2"
+                            style="background: linear-gradient(90deg, #0ea5e9, #2563eb); border: none;">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span>Thêm vào giỏ hàng</span>
+                    </button>
+                </form>
+
+                @if (Model.so_luong_ton <= 0)
+                {
+                    <div class="alert alert-danger mt-3 d-flex align-items-center" role="alert">
+                        <i class="fa-solid fa-circle-exclamation me-2"></i>
+                        <div>Sản phẩm này tạm thời đang hết hàng.</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="product-info-card p-0 overflow-hidden">
+                <ul class="nav nav-tabs px-3 pt-3" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-specs" type="button">Thông số kỹ thuật</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-desc" type="button">Mô tả chi tiết</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content p-4">
+                    <div class="tab-pane fade show active" id="tab-specs">
+                        @if (Model.thong_so_ky_thuat != null && Model.thong_so_ky_thuat.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-dark table-hover table-bordered tech-table mb-0">
+                                    <tbody>
+                                        @foreach (var item in Model.thong_so_ky_thuat)
+                                        {
+                                            <tr>
+                                                <th>@item.ten_thong_so</th>
+                                                <td>@item.gia_tri</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-white-50 fst-italic">Đang cập nhật thông số...</p>
+                        }
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-desc">
+                        <div class="short-description">
+                            @Html.Raw(Model.mo_ta_chi_tiet)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Hàm xử lý tăng giảm số lượng
+        function thayDoiSoLuong(delta) {
+            var input = document.getElementById('soLuongMua');
+            var currentValue = parseInt(input.value);
+            var maxValue = parseInt(input.getAttribute('max')); // Lấy tồn kho tối đa
+
+            var newValue = currentValue + delta;
+
+            // Kiểm tra điều kiện: Không nhỏ hơn 1 và không lớn hơn tồn kho
+            if (newValue >= 1 && newValue <= maxValue) {
+                input.value = newValue;
+            } else {
+                // Hiệu ứng rung lắc nhẹ nếu bấm quá giới hạn (Optional)
+                input.style.transform = "translateX(5px)";
+                setTimeout(() => input.style.transform = "translateX(0)", 100);
+            }
+        }
+    </script>
+
+    <style>
+        /* Ẩn 2 mũi tên mặc định xấu xí của ô input number */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Hiệu ứng khi di chuột vào nút +/- */
+        .hover-white:hover {
+            color: #fff !important;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        /* Đảm bảo ô nhập số luôn ở giữa và to rõ */
+        #soLuongMua {
+            width: 50px;
+            padding: 0;
+        }
+    </style>
+</div>

@@ -1,0 +1,70 @@
+﻿@model WebBanHang.Models.san_pham
+
+@{
+    ViewBag.Title = "Cập nhật sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-warning text-dark">
+        <h5 class="mb-0">Cập nhật sản phẩm: @Model.ten_san_pham</h5>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Edit", "QuanLySanPham", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.id_san_pham) <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tên sản phẩm</label>
+                        @Html.EditorFor(model => model.ten_san_pham, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Giá bán</label>
+                            @Html.EditorFor(model => model.gia_ban, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Giá khuyến mãi</label>
+                            @Html.EditorFor(model => model.gia_khuyen_mai, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Mô tả chi tiết</label>
+                        @Html.TextAreaFor(model => model.mo_ta_chi_tiet, new { @class = "form-control", rows = "5" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Danh mục</label>
+                        @Html.DropDownList("id_danh_muc", null, htmlAttributes: new { @class = "form-select" })
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Thương hiệu</label>
+                        @Html.DropDownList("id_thuong_hieu", null, htmlAttributes: new { @class = "form-select" })
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Số lượng tồn</label>
+                        @Html.EditorFor(model => model.so_luong_ton, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Hình ảnh hiện tại</label><br />
+                        <img src="~/Content/images/@Model.hinh_anh_dai_dien" width="100%" class="rounded mb-2 border" />
+
+                        <label class="form-label small text-muted">Chọn ảnh mới (nếu muốn thay đổi)</label>
+                        <input type="file" name="hinh_anh" class="form-control" accept="image/*" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 text-center">
+                <a href="@Url.Action("Index")" class="btn btn-secondary me-2">Hủy bỏ</a>
+                <button type="submit" class="btn btn-warning px-4"><i class="fa-solid fa-check"></i> Cập Nhật</button>
+            </div>
+        }
+    </div>
+</div>

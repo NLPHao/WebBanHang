@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="10e2db85536c4dd9831dc23ce60d4e2e" Name="Diagram1">
+        <EntityTypeShape EntityType="BANHANGModel.chi_tiet_don_hang" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BANHANGModel.danh_muc" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BANHANGModel.don_hang" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BANHANGModel.nguoi_dung" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="BANHANGModel.san_pham" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BANHANGModel.thong_so_ky_thuat" Width="1.5" PointX="5.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BANHANGModel.thuong_hieu" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BANHANGModel.vai_tro" Width="1.5" PointX="1.5" PointY="12.75" IsExpanded="true" />
+        <AssociationConnector Association="BANHANGModel.FK__chi_tiet___id_do__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="BANHANGModel.FK__chi_tiet___id_sa__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="BANHANGModel.FK__san_pham__id_dan__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="BANHANGModel.FK__don_hang__id_ngu__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="BANHANGModel.FK__nguoi_dun__id_va__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="BANHANGModel.FK__san_pham__id_thu__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="BANHANGModel.FK__thong_so___id_sa__48CFD27E" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

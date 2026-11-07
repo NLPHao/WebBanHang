@@ -1,0 +1,97 @@
+﻿@model IEnumerable<WebBanHang.Models.don_hang>
+
+@{
+    ViewBag.Title = "Quản lý đơn hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; // Admin nên có Layout riêng, nhưng tạm dùng chung
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold">QUẢN LÝ ĐƠN HÀNG</h2>
+        <span class="badge bg-primary fs-6">Tổng: @Model.Count() đơn</span>
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped align-middle mb-0">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th class="py-3 ps-3">Mã Đơn</th>
+                        <th>Khách hàng</th>
+                        <th>Ngày đặt</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="ps-3 fw-bold">#@item.id_don_hang</td>
+                            <td>
+                                <div class="fw-bold">@item.nguoi_dung.ho_ten</div>
+                                <small class="text-muted">@item.so_dien_thoai_nhan</small>
+                            </td>
+                            <td>@string.Format("{0:dd/MM/yyyy HH:mm}", item.ngay_dat_hang)</td>
+                            <td class="text-danger fw-bold">@string.Format("{0:#,##0}đ", item.tong_tien)</td>
+
+                            <td>
+                                @if (item.trang_thai_don_hang == "Chờ xử lý")
+                                {
+                                    <span class="badge bg-warning text-dark">⏳ @item.trang_thai_don_hang</span>
+                                }
+                                else if (item.trang_thai_don_hang == "Đã xác nhận")
+                                {
+                                    <span class="badge bg-primary">📦 @item.trang_thai_don_hang</span>
+                                }
+                                else if (item.trang_thai_don_hang == "Đã giao")
+                                {
+                                    <span class="badge bg-success">✅ @item.trang_thai_don_hang</span>
+                                }
+                                else if (item.trang_thai_don_hang == "Đã hủy")
+                                {
+                                    <span class="badge bg-danger">❌ @item.trang_thai_don_hang</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">@item.trang_thai_don_hang</span>
+                                }
+                            </td>
+
+                            <td class="text-center">
+                                <a href="@Url.Action("ChiTiet", "QuanLyDonHang", new { id = item.id_don_hang })" class="btn btn-sm btn-info text-white" title="Xem chi tiết">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+
+                                @if (item.trang_thai_don_hang == "Chờ xử lý")
+                                {
+                                    <a href="@Url.Action("DuyetDon", "QuanLyDonHang", new { id = item.id_don_hang })"
+                                       class="btn btn-sm btn-success ms-1"
+                                       onclick="return confirm('Duyệt đơn hàng này và chuyển sang Đã xác nhận?')">
+                                        <i class="fa-solid fa-check"></i> Duyệt đơn
+                                    </a>
+                                    <a href="@Url.Action("HuyDon", "QuanLyDonHang", new { id = item.id_don_hang })"
+                                       class="btn btn-sm btn-danger ms-1"
+                                       onclick="return confirm('Hủy đơn hàng này?')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                }
+
+                                else if (item.trang_thai_don_hang == "Đã xác nhận")
+                                {
+                                    <a href="@Url.Action("XacNhanGiaoHang", "QuanLyDonHang", new { id = item.id_don_hang })"
+                                       class="btn btn-sm text-white ms-1"
+                                       style="background-color: #fd7e14; border-color: #fd7e14;"
+                                       onclick="return confirm('Xác nhận đã giao hàng thành công?')">
+                                        <i class="fa-solid fa-truck-fast"></i> Xác nhận đã giao
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

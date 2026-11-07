@@ -1,0 +1,63 @@
+﻿@using WebBanHang.Models
+@model List<GioHang>
+
+@{
+    ViewBag.Title = "Thanh toán";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Lấy thông tin người dùng đang đăng nhập để điền sẵn vào form
+    var user = Session["TaiKhoan"] as nguoi_dung;
+}
+
+<div class="container py-5 text-white">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="mb-3 text-primary">Thông tin giao hàng</h3>
+            @using (Html.BeginForm("DatHang", "GioHang", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label>Người nhận:</label>
+                    <input type="text" class="form-control" value="@user.ho_ten" readonly />
+                </div>
+                <div class="mb-3">
+                    <label>Số điện thoại nhận hàng (*):</label>
+                    <input type="text" name="SDTNhan" class="form-control" value="@user.so_dien_thoai" required />
+                </div>
+                <div class="mb-3">
+                    <label>Địa chỉ giao hàng (*):</label>
+                    <input type="text" name="DiaChiNhan" class="form-control" value="@user.dia_chi" required />
+                </div>
+                <div class="mb-3">
+                    <label>Ghi chú đơn hàng:</label>
+                    <textarea name="GhiChu" class="form-control" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-lg w-100 mt-3" onclick="return confirm('Xác nhận đặt hàng?');">
+                    XÁC NHẬN ĐẶT HÀNG
+                </button>
+            }
+        </div>
+
+        <div class="col-md-6">
+            <div class="bg-dark p-4 rounded border border-secondary">
+                <h4 class="mb-3">Đơn hàng của bạn</h4>
+                <ul class="list-group list-group-flush mb-3">
+                    @foreach (var item in Model)
+                    {
+                        <li class="list-group-item bg-dark text-white d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">@item.sTenSP</h6>
+                                <small class="text-muted">SL: @item.iSoLuong</small>
+                            </div>
+                            <span class="text-muted">@string.Format("{0:#,##0}", item.dThanhTien)</span>
+                        </li>
+                    }
+                    <li class="list-group-item bg-dark text-white d-flex justify-content-between mt-3">
+                        <span class="fw-bold">Tổng cộng (VNĐ)</span>
+                        <strong class="text-danger fs-4">@string.Format("{0:#,##0}đ", ViewBag.TongTien)</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

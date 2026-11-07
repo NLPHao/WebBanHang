@@ -1,0 +1,95 @@
+﻿@model WebBanHang.Models.nguoi_dung
+
+@{
+    ViewBag.Title = "ThongTinTaiKhoan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ThongTinTaiKhoan</h2>
+
+<div>
+    <h4>nguoi_dung</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.tai_khoan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tai_khoan)
+        </dd>
+
+        <dt>
+            <div class="form-group">
+                <label>Mật khẩu:</label>
+                <input type="text" class="form-control" value="@Model.mat_khau" readonly />
+                <small class="text-danger">Lưu ý: Không nên cho người khác xem màn hình này.</small>
+            </div>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mat_khau)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ho_ten)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ho_ten)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.so_dien_thoai)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.so_dien_thoai)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dia_chi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dia_chi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngay_tao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngay_tao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.anh_dai_dien)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.anh_dai_dien)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.vai_tro.ten_vai_tro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.vai_tro.ten_vai_tro)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_nguoi_dung }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

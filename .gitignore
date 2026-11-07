@@ -1,0 +1,29 @@
+## Visual Studio temporary and cache files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+
+## NuGet Packages
+*.nupkg
+packages/*
+!packages/repositories.config
+!packages.config
+
+## Others
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.tmp

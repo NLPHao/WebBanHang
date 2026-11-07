@@ -1,0 +1,62 @@
+﻿@using WebBanHang.Models
+@model List<GioHang>
+
+@{
+    ViewBag.Title = "Giỏ hàng của bạn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-white">Giỏ hàng của bạn (@ViewBag.TongSoLuong sản phẩm)</h2>
+        <a href="@Url.Action("XoaTatCaGioHang", "GioHang")" class="btn btn-outline-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa sạch giỏ hàng?');">
+            <i class="fa-solid fa-trash-can me-2"></i>Xóa tất cả
+        </a>
+    </div>
+
+    <table class="table table-dark table-hover text-center align-middle">
+        <thead>
+            <tr>
+                <th>Ảnh</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><img src="~/images/@item.sAnh" width="60" style="border-radius:5px;" /></td>
+                    <td class="text-start">@item.sTenSP</td>
+                    <td class="text-danger">@string.Format("{0:#,##0}đ", item.dDonGia)</td>
+                    <td>
+                        <input type="number" min="1" value="@item.iSoLuong" class="form-control d-inline-block text-center" style="width:60px;" readonly />
+                    </td>
+                    <td class="text-success fw-bold">@string.Format("{0:#,##0}đ", item.dThanhTien)</td>
+
+                    <td>
+                        <a href="@Url.Action("XoaGioHang", "GioHang", new { iMaSP = item.iMaSP })"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Bạn chắc chắn muốn xóa sản phẩm này?');">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-end fw-bold fs-5">TỔNG TIỀN:</td>
+                <td colspan="2" class="text-success fw-bold fs-4 text-start">@string.Format("{0:#,##0}đ", ViewBag.TongTien)</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="text-end mt-4">
+        <a href="@Url.Action("Index", "San_Pham")" class="btn btn-secondary me-2">Tiếp tục mua hàng</a>
+        <a href="@Url.Action("DatHang", "GioHang")" class="btn btn-primary btn-lg shadow">TIẾN HÀNH ĐẶT HÀNG</a>
+    </div>
+</div>

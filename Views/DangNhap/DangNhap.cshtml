@@ -1,0 +1,133 @@
+﻿@using WebBanHang.Models
+@model WebBanHang.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Đăng Nhập Hệ Thống";
+}
+
+<style>
+    /* Căn giữa màn hình */
+    .login-wrapper {
+        min-height: 80vh; /* Chiều cao tối thiểu để căn giữa đẹp */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    /* Khung Login trong suốt (Glassmorphism) */
+    .login-card {
+        background: rgba(20, 30, 48, 0.75); /* Màu nền tối trong suốt */
+        backdrop-filter: blur(12px); /* Làm mờ hậu cảnh */
+        border: 1px solid rgba(0, 162, 255, 0.3); /* Viền xanh mờ */
+        border-radius: 20px;
+        padding: 40px;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 0 30px rgba(0, 162, 255, 0.15); /* Bóng phát sáng */
+    }
+
+    .login-title {
+        color: #fff;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
+        font-weight: 700;
+        text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    /* Input Style */
+    .tech-input-group {
+        margin-bottom: 20px;
+    }
+
+        .tech-input-group label {
+            color: #38bdf8; /* Màu xanh Sky Blue giống theme */
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 600;
+        }
+
+    .tech-input {
+        width: 100%;
+        padding: 12px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        color: #fff;
+        outline: none;
+        transition: all 0.3s;
+    }
+
+        .tech-input:focus {
+            border-color: #00efff; /* Neon Cyan */
+            box-shadow: 0 0 15px rgba(0, 239, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+    /* Tận dụng class btn-buy-now cũ nhưng chỉnh lại chút cho nút Submit */
+    .btn-tech-submit {
+        width: 100%;
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .text-danger {
+        color: #ff4d4d;
+        font-size: 0.9rem;
+        margin-top: 5px;
+        display: block;
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="login-card">
+        <h2 class="login-title">Đăng Nhập</h2>
+
+        @using (Html.BeginForm("DangNhap", "DangNhap", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            if (ViewBag.ThongBao != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.ThongBao
+                </div>
+            }
+
+            <div style="text-align:center; margin-bottom:15px;">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="tech-input-group">
+                <label><i class="fa fa-user"></i> Tên tài khoản</label>
+                @Html.TextBoxFor(m => m.TenDangNhap, new { @class = "tech-input", placeholder = "Nhập tài khoản..." })
+                @Html.ValidationMessageFor(m => m.TenDangNhap, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="tech-input-group">
+                <label><i class="fa fa-lock"></i> Mật khẩu</label>
+                @Html.PasswordFor(m => m.MatKhau, new { @class = "tech-input", placeholder = "••••••••" })
+                @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn-buy-now btn-tech-submit">
+                Đăng Nhập Ngay
+            </button>
+            <div class="col-md-offset-2 col-md-10" style="margin-top: 15px;">
+                <span style="color: #666;">Chưa có tài khoản?</span>
+
+                <a href="@Url.Action("DangKy", "DangNhap")" style="font-weight: bold; text-decoration: none; color: #4e73df;">
+                    Đăng ký ngay
+                </a>
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="#" style="color: #bcccdc; font-size: 0.9rem; text-decoration: none;">Quên mật khẩu?</a>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    @Styles.Render("~/Content/StyleModelForm.css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+    <div class="container body-content">
+        <header class="main-header" style="position: relative; z-index: 1000;">
+            <div class="container d-flex align-items-center justify-content-between py-3">
+
+                <a href="@Url.Action("Index", "san_pham")" class="logo-brand d-flex align-items-center text-decoration-none">
+                    <div class="logo-icon me-2">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="fw-bold text-uppercase text-white fs-4" style="line-height: 1;">BCTTechStore</span>
+                        <span style="font-size: 0.75rem; color: var(--accent-color); letter-spacing: 2px;">VIETNAM</span>
+                    </div>
+                </a>
+                <div class="flex-grow-1 mx-4 d-none d-md-block">
+                    <form action="@Url.Action("Index", "san_pham")" method="get" class="search-form position-relative">
+                        <input type="text" name="searchString" class="form-control search-input" placeholder="Bạn tìm gì hôm nay? (Ví dụ: iPhone 15...)">
+                        <button type="submit" class="search-btn">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="d-flex align-items-center gap-4">
+
+                    @if (Session["TaiKhoan"] != null && Session["TenHienThi"] != null)
+                    {
+                        <div class="dropdown">
+                            <a href="#" class="header-action text-decoration-none d-flex align-items-center dropdown-toggle"
+                               id="userDropdown" role="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                                <div class="icon-circle bg-success bg-opacity-75 text-white">
+                                    <i class="fa-solid fa-user-check"></i>
+                                </div>
+                                <div class="d-none d-md-block ms-2 text-start">
+                                    <small class="d-block text-secondary" style="font-size: 0.7rem;">Xin chào,</small>
+                                    <span class="fw-bold text-white" style="font-size: 0.9rem;">
+                                        @Session["TenHienThi"]
+                                    </span>
+                                </div>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end shadow"
+                                aria-labelledby="userDropdown"
+                                style="position: absolute; z-index: 99999 !important; right: -20px; top: 100%; margin-top: 10px;">
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("ThongTinTaiKhoan", "DangNhap")">
+                                        <i class="fa-solid fa-id-card me-2 text-primary"></i>Thông tin tài khoản
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("DoiMatKhau", "DangNhap")">
+                                        <i class="fa-solid fa-key me-2 text-warning"></i>Đổi mật khẩu
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="@Url.Action("DangXuat", "DangNhap")">
+                                        <i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("DangNhap", "DangNhap")" class="header-action text-decoration-none d-flex align-items-center">
+                            <div class="icon-circle bg-dark bg-opacity-50">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                            <div class="d-none d-md-block ms-2">
+                                <small class="d-block text-secondary" style="font-size: 0.7rem;">Tài khoản</small>
+                                <span class="fw-bold text-white" style="font-size: 0.9rem;">Đăng nhập</span>
+                            </div>
+                        </a>
+                    }
+
+                    <a href="@Url.Action("GioHang", "GioHang")" class="header-action text-decoration-none d-flex align-items-center position-relative">
+
+                        @{
+                            var lstGioHang = Session["GioHang"] as List<WebBanHang.Models.GioHang>;
+                            int iTongSoLuong = 0;
+                            double dTongTien = 0;
+
+                            if (lstGioHang != null && lstGioHang.Count > 0)
+                            {
+                                iTongSoLuong = lstGioHang.Sum(n => n.iSoLuong);
+                                dTongTien = lstGioHang.Sum(n => n.dThanhTien);
+                            }
+                        }
+
+                        <div class="icon-circle cart-icon">
+                            <i class="fa-solid fa-cart-shopping"></i>
+
+                            @if (iTongSoLuong > 0)
+                            {
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-dark">
+                                    @iTongSoLuong
+                                </span>
+                            }
+                        </div>
+
+                        <div class="d-none d-md-block ms-2">
+                            <small class="d-block text-secondary" style="font-size: 0.7rem;">Giỏ hàng</small>
+                            <span class="fw-bold text-white" style="font-size: 0.9rem;">
+                                @if (dTongTien > 0)
+                                {
+                                    @String.Format("{0:#,##0}đ", dTongTien)
+                                }
+                                else
+                                {
+                                    @:0đ
+                                }
+                            </span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+            <style>
+                /* Ép buộc header và container không được ẩn nội dung thừa */
+                .main-header,
+                .main-header .container,
+                .main-header .d-flex {
+                    overflow: visible !important;
+                }
+
+                /* Đảm bảo Header luôn nằm trên cùng (lớp cao nhất) */
+                .main-header {
+                    position: relative !important;
+                    z-index: 99999 !important; /* Số cực lớn để đè tất cả */
+                }
+
+                /* Xử lý riêng cho Dropdown */
+                .dropdown-menu {
+                    z-index: 999999 !important; /* Cao hơn cả header */
+                }
+            </style>
+        </header>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("scripts", required: false)
+    @if (TempData["ThongBao"] != null)
+    {
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+            <div id="liveToast" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body fs-6">
+                        <i class="fa-solid fa-circle-check me-2"></i> @TempData["ThongBao"]
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            setTimeout(function () {
+                var toastEl = document.getElementById('liveToast');
+                if (toastEl) {
+                    var toast = new bootstrap.Toast(toastEl);
+                    toast.hide();
+                }
+            }, 3000); // 3000ms = 3 giây
+        </script>
+    }
+</body>
+</html>
